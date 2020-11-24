@@ -27,7 +27,7 @@ exports.create = async (ctx) => {
 exports.delete = async (ctx) => {
   const { id } = ctx.params;
   try {
-    await Letter.findByIdAndDelete(id).exec();
+    await Letter.findByIdAndRemove(id).exec();
   } catch (e) {
     if (e.name === "CastError") {
       ctx.status = 400;
