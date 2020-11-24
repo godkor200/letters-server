@@ -11,16 +11,18 @@ const mongoose = require("mongoose");
 const bodyParser = require("koa-bodyparser");
 const cors = require("@koa/cors");
 const fs = require("fs");
-const indexHtml = fs.readFileSync(
-  path.resolve(__dirname, "./public/index.html"),
-  { encoding: "utf8" }
-);
+// const indexHtml = fs.readFileSync(
+//   path.resolve(__dirname, "../client/build/index.html"),
+//   { encoding: "utf8" }
+// );
+
 /*-----------------------------------------------------*/
+
 app.use(cors());
 // logger
 app.use(bodyParser());
 // server side
-app.use(serve(path.resolve(__dirname, "./public")));
+//app.use(serve(path.resolve(__dirname, "../client/build")));
 app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.get("X-Response-Time");
@@ -53,9 +55,9 @@ mongoose
   });
 
 // response
-app.use((ctx) => {
-  ctx.body = indexHtml;
-});
+// app.use((ctx) => {
+//   ctx.body = indexHtml;
+// });
 
 router.get("/", (ctx, next) => {
   ctx.body = "Home";
