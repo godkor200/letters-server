@@ -7,7 +7,7 @@ letters.get("/", letterCtrl.list);
 
 letters.post("/", letterCtrl.create);
 
-letters.delete("/", letterCtrl.delete);
+letters.delete("/:id", letterCtrl.delete);
 
 letters.put("/", letterCtrl.replace);
 

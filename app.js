@@ -46,6 +46,7 @@ mongoose
   .connect(uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
   })
   .then((response) => {
     console.log("Successfully connected to mongodb");

@@ -4,6 +4,10 @@ exports.list = async (ctx) => {
   let letters;
   try {
     letters = await Letter.find().exec();
+    console.log(
+      "🚀 ~ file: letters.controller.js ~ line 7 ~ exports.list= ~ letters",
+      letters
+    );
   } catch (e) {
     return ctx.throw(500, e);
   }
@@ -13,6 +17,10 @@ exports.list = async (ctx) => {
 exports.create = async (ctx) => {
   const msg = ctx.request.body;
   const newletter = new Letter({ msg: msg.msg });
+  console.log(
+    "🚀 ~ file: letters.controller.js ~ line 20 ~ exports.create= ~ newletter",
+    newletter
+  );
   try {
     await newletter.save();
   } catch (e) {
@@ -25,9 +33,14 @@ exports.create = async (ctx) => {
   ctx.body = newletter;
 };
 exports.delete = async (ctx) => {
-  const { id } = ctx.params;
+  const id = ctx.params.id;
+  console.log(
+    "🚀 ~ file: letters.controller.js ~ line 37 ~ exports.delete ~ _id",
+    ctx.params.id
+  );
   try {
-    await Letter.findByIdAndRemove(id).exec();
+    await Letter.findOneAndRemove({ _id: id }).exec();
+    ctx.body = "delete";
   } catch (e) {
     if (e.name === "CastError") {
       ctx.status = 400;
