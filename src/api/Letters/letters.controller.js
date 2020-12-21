@@ -33,9 +33,9 @@ exports.delete = async (ctx) => {
   }
 };
 
-exports.replace = (ctx) => {
-  ctx.body = db.letters;
-};
+// exports.replace = (ctx) => {
+//   ctx.body = db.letters;
+// };
 
 exports.update = (ctx) => {
   ctx.body = db.letters;
