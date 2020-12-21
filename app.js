@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("koa-bodyparser");
 const cors = require("@koa/cors");
 const fs = require("fs");
+
 // const indexHtml = fs.readFileSync(
 //   path.resolve(__dirname, "../client/build/index.html"),
 //   { encoding: "utf8" }
@@ -19,8 +20,9 @@ const fs = require("fs");
 /*-----------------------------------------------------*/
 
 app.use(cors());
-// logger
 app.use(bodyParser());
+//router.use(bodyParser.urlencoded({ extended: false }));
+//router.use(bodyParser.json());
 // server side
 //app.use(serve(path.resolve(__dirname, "../client/build")));
 app.use(async (ctx, next) => {
