@@ -9,7 +9,7 @@ letters.post("/", letterCtrl.create);
 
 letters.delete("/:id", letterCtrl.delete);
 
-letters.put("/", letterCtrl.replace);
+//letters.put("/", letterCtrl.replace);
 
 letters.patch("/", letterCtrl.update);
 
