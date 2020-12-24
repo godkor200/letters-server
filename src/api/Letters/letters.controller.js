@@ -12,7 +12,7 @@ exports.list = async (ctx) => {
 
 exports.create = async (ctx) => {
   const msg = ctx.request.body;
-  const newletter = new Letter({ msg: msg.msg });
+  const newletter = new Letter({ msg: msg.msg, createdAt: msg.createdAt });
   try {
     await newletter.save();
   } catch (e) {

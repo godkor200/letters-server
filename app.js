@@ -1,29 +1,21 @@
 const koa = require("koa");
 const Router = require("koa-router");
-const serve = require("koa-static");
-const path = require("path");
+const mongoose = require("mongoose");
 const app = new koa();
 const router = new Router();
 const api = require("./src/api");
 const port = process.env.PORT || 4001;
-const mongoose = require("mongoose");
 const bodyParser = require("koa-bodyparser");
 const cors = require("@koa/cors");
-const fs = require("fs");
-
-// const indexHtml = fs.readFileSync(
-//   path.resolve(__dirname, "../client/build/index.html"),
-//   { encoding: "utf8" }
-// );
 
 /*-----------------------------------------------------*/
 
-app.use(cors());
-app.use(bodyParser());
-//router.use(bodyParser.urlencoded({ extended: false }));
-//router.use(bodyParser.json());
-// server side
-//app.use(serve(path.resolve(__dirname, "../client/build")));
+app
+  .use(cors())
+  .use(bodyParser())
+  .use(router.routes())
+  .use(router.allowedMethods());
+
 app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.get("X-Response-Time");
@@ -67,9 +59,6 @@ router.get("/", (ctx, next) => {
 });
 
 router.use("/api", api.routes());
-
-app.use(router.routes());
-app.use(router.allowedMethods());
 
 app.listen(port, () => {
   console.log(`app is listening in PORT ${port}`);
