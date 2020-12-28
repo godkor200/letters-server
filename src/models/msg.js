@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const CommentSchema = new Schema({
+  cmt: { type: String },
+  createdAt: {
+    type: String,
+    required: true,
+  },
+});
 const msgSchema = new Schema(
   { msg: { type: String } },
   {
@@ -10,9 +17,7 @@ const msgSchema = new Schema(
     },
   },
   {
-    cmt: {
-      type: Object,
-    },
+    cmt: [CommentSchema],
   }
 );
 msgSchema.add({
@@ -23,9 +28,7 @@ msgSchema.add({
   },
 });
 msgSchema.add({
-  cmt: {
-    type: Object,
-  },
+  cmt: [CommentSchema],
 });
 
 module.exports = mongoose.model("letter", msgSchema);
