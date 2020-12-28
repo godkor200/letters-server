@@ -7,7 +7,7 @@ comments.get("/:id", commentCtrl.list);
 
 comments.post("/:id", commentCtrl.create);
 
-comments.delete("/:id", commentCtrl.delete);
+comments.delete("/:postId/:cmtId", commentCtrl.delete);
 
 //comments.put("/", commentCtrl.replace);
 
