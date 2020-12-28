@@ -1,35 +1,51 @@
-const comments = require("../../models/msg");
-
+const Letter = require("../../models/msg");
+const Comment = require("../../models/comment");
 exports.list = async (ctx) => {
   const id = ctx.params.id;
   try {
-    await comments.findById(id).exec();
+    await Letter.findById(id).exec();
   } catch {
     return ctx.throw(500, e);
   }
 };
 
 exports.create = async (ctx) => {
-  const id = ctx.params.id;
-  const { name, cmt } = ctx.request.body;
-  console.log(
-    "🚀 ~ file: comments.controller.js ~ line 15 ~ exports.create= ~ ctx.request",
-    ctx.request.body
-  );
+  const { id } = ctx.params;
+  const { cmt, createdAt } = ctx.request.body;
+  const comment = new Comment();
+  comment.cmt = cmt;
+  comment.createdAt = createdAt;
   try {
-    await comments.findByIdAndUpdate(id, { cmt: cmt }).exec();
+    await Letter.findByIdAndUpdate(id, {
+      $push: { cmt: comment },
+    }).exec();
   } catch {
-    return ctx.throw(500, e);
+    return ctx.throw(500);
   }
-  ctx.body = comments;
+  ctx.body = Letter;
 };
 exports.delete = async (ctx) => {
-  const id = ctx.params.id;
-  //   try {
-  //     await Letter.findByIdAndRemove(id).exec();
-  //   } catch (e) {
-  //     return ctx.throw(500, e);
-  //   }
+  const { postId, cmtId } = ctx.params;
+  console.log(
+    "🚀 ~ file: comments.controller.js ~ line 29 ~ exports.delete ~ id",
+    postId,
+    cmtId
+  );
+  try {
+    const post = await Letter.findByIdAndUpdate(postId, {
+      $pull: { cmt: cmtId },
+    });
+    console.log(
+      "🚀 ~ file: comments.controller.js ~ line 38 ~ exports.delete ~ post",
+      post
+    );
+    await Comment.findByIdAndDelete(cmtId);
+    if (!post) {
+      return ctx.throw(400).send("Post not found");
+    }
+  } catch (e) {
+    return ctx.throw(500, e);
+  }
 };
 
 // exports.replace = (ctx) => {
@@ -37,5 +53,5 @@ exports.delete = async (ctx) => {
 // };
 
 exports.update = (ctx) => {
-  ctx.body = db.comments;
+  ctx.body = db.Letter;
 };
