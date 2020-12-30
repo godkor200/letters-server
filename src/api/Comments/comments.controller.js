@@ -7,12 +7,14 @@ exports.list = async (ctx) => {
   } catch {
     return ctx.throw(500, e);
   }
+  ctx.body = "render";
 };
 
 exports.create = async (ctx) => {
   const { id } = ctx.params;
-  const { cmt, createdAt } = ctx.request.body;
+  const { name, cmt, createdAt } = ctx.request.body;
   const comment = new Comment();
+  comment.name = name;
   comment.cmt = cmt;
   comment.createdAt = createdAt;
   try {
@@ -26,23 +28,11 @@ exports.create = async (ctx) => {
 };
 exports.delete = async (ctx) => {
   const { postId, cmtId } = ctx.params;
-  console.log(
-    "🚀 ~ file: comments.controller.js ~ line 29 ~ exports.delete ~ id",
-    postId,
-    cmtId
-  );
   try {
     const post = await Letter.findByIdAndUpdate(postId, {
-      $pull: { cmt: cmtId },
+      $pull: { cmt: { _id: cmtId } },
     });
-    console.log(
-      "🚀 ~ file: comments.controller.js ~ line 38 ~ exports.delete ~ post",
-      post
-    );
     await Comment.findByIdAndDelete(cmtId);
-    if (!post) {
-      return ctx.throw(400).send("Post not found");
-    }
   } catch (e) {
     return ctx.throw(500, e);
   }
