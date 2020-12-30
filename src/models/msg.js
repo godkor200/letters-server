@@ -6,6 +6,11 @@ const CommentSchema = new Schema({
     type: String,
     required: true,
   },
+  name: {
+    // 기본값을 설정할땐 이렇게 객체로 설정해줍니다
+    type: String,
+    required: true,
+  },
 });
 const msgSchema = new Schema(
   { msg: { type: String } },
@@ -18,7 +23,8 @@ const msgSchema = new Schema(
   },
   {
     cmt: [CommentSchema],
-  }
+  },
+  { name: { type: String } }
 );
 msgSchema.add({
   createdAt: {
@@ -29,6 +35,13 @@ msgSchema.add({
 });
 msgSchema.add({
   cmt: [CommentSchema],
+});
+msgSchema.add({
+  name: {
+    // 기본값을 설정할땐 이렇게 객체로 설정해줍니다
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("letter", msgSchema);
