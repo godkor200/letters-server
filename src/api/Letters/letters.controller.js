@@ -12,9 +12,13 @@ exports.list = async (ctx) => {
 
 exports.create = async (ctx) => {
   const msg = ctx.request.body;
-  const newletter = new Letter({ msg: msg.msg, createdAt: msg.createdAt });
+  const newletter = new Letter({
+    msg: msg.msg,
+    name: msg.name,
+    createdAt: msg.createdAt,
+  });
   try {
-    await newletter.save();
+    output = await newletter.save();
   } catch (e) {
     // HTTP 상태 500 와 Internal Error 라는 메시지를 반환하고,
     // 에러를 기록합니다.
@@ -22,15 +26,17 @@ exports.create = async (ctx) => {
   }
 
   // 저장한 결과를 반환합니다.
-  ctx.body = newletter;
+  ctx.body = output;
 };
 exports.delete = async (ctx) => {
   const id = ctx.params.id;
+  let letters;
   try {
-    await Letter.findByIdAndRemove(id).exec();
+    letters = await Letter.findByIdAndRemove(id).exec();
   } catch (e) {
     return ctx.throw(500, e);
   }
+  ctx.body = letters;
 };
 
 // exports.replace = (ctx) => {
