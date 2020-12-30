@@ -29,7 +29,7 @@ exports.create = async (ctx) => {
 exports.delete = async (ctx) => {
   const { postId, cmtId } = ctx.params;
   try {
-    const post = await Letter.findByIdAndUpdate(postId, {
+    await Letter.findByIdAndUpdate(postId, {
       $pull: { cmt: { _id: cmtId } },
     });
     await Comment.findByIdAndDelete(cmtId);
