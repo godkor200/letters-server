@@ -29,8 +29,8 @@ exports.create = async (ctx) => {
       },
     });
     const mailOptions = {
-      from: "godkor200@gmail.com", // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
-      to: "peppgili12@naver.com", // 수신 메일 주소
+      from: process.env.EMAIL_USER, // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
+      to: process.env.EMAIL_TO, // 수신 메일 주소
       subject: `편지싸이트 업데이트 알림! ${msg.createdAt}`, // 제목
       text: "편지싸이트에 지금 편지가 올려가 있으니까 한번봐봐!",
     };
