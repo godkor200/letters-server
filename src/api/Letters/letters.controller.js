@@ -1,5 +1,7 @@
 const Letter = require("../../models/msg");
 const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+dotenv.config();
 
 exports.list = async (ctx) => {
   let letters;
@@ -20,9 +22,11 @@ exports.create = async (ctx) => {
   });
   try {
     output = await newletter.save();
-    const smtpTransprot = nodemailer.createTransport({
+    const smtpTransprot = await nodemailer.createTransport({
+      host: "smtp.gmail.com",
       service: "Gmail",
-      port: 465,
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER, // gmail 계정 아이디를 입력
         pass: process.env.EMAIL_PASS, // gmail 계정의 비밀번호를 입력
@@ -41,7 +45,7 @@ exports.create = async (ctx) => {
         console.log("Email sent: " + info.response);
       }
     });
-    smtpTransprot.close();
+    //smtpTransprot.close();
   } catch (e) {
     // HTTP 상태 500 와 Internal Error 라는 메시지를 반환하고,
     // 에러를 기록합니다.
