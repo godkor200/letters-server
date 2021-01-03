@@ -22,7 +22,7 @@ exports.create = async (ctx) => {
   });
   try {
     output = await newletter.save();
-    const smtpTransprot = await nodemailer.createTransport({
+    const smtpTransprot = nodemailer.createTransport({
       host: "smtp.gmail.com",
       service: "Gmail",
       port: 587,
