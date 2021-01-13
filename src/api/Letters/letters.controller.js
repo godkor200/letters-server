@@ -6,7 +6,7 @@ dotenv.config();
 exports.list = async (ctx) => {
   let letters;
   try {
-    letters = await Letter.find().exec();
+    letters = await Letter.find().sort({ _id: "desc" }).exec();
   } catch (e) {
     return ctx.throw(500, e);
   }
