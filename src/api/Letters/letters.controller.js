@@ -57,19 +57,28 @@ exports.create = async (ctx) => {
 };
 exports.delete = async (ctx) => {
   const id = ctx.params.id;
-  let letters;
   try {
-    letters = await Letter.findByIdAndRemove(id).exec();
+    await Letter.findByIdAndRemove(id).exec();
   } catch (e) {
     return ctx.throw(500, e);
   }
   ctx.body = letters;
 };
 
-// exports.replace = (ctx) => {
-//   ctx.body = db.letters;
-// };
-
-exports.update = (ctx) => {
-  ctx.body = db.letters;
+exports.replace = async (ctx) => {
+  const body = ctx.request.body;
+  const id = ctx.params.id;
+  console.log(body, id);
+  try {
+    await Letter.findByIdAndUpdate(id, body);
+    console.log("성공");
+  } catch (e) {
+    console.log(e);
+    return ctx.throw(500, e);
+  }
 };
+
+// exports.update = (ctx) => {
+//   console.log(ctx);
+//   //console.log("파람스", ctx.params);
+// };

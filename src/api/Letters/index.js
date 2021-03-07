@@ -9,8 +9,8 @@ letters.post("/", letterCtrl.create);
 
 letters.delete("/:id", letterCtrl.delete);
 
-//letters.put("/", letterCtrl.replace);
+letters.put("/:id", letterCtrl.replace);
 
-letters.patch("/", letterCtrl.update);
+//letters.patch("/", letterCtrl.update);
 
 module.exports = letters;
