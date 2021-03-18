@@ -1,12 +1,12 @@
-const Letter = require("../../models/msg");
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
+const Letter = require('../../models/msg');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
 dotenv.config();
 
 exports.list = async (ctx) => {
   let letters;
   try {
-    letters = await Letter.find().sort({ _id: "desc" }).exec();
+    letters = await Letter.find().sort({ _id: 'desc' }).exec();
   } catch (e) {
     return ctx.throw(500, e);
   }
@@ -23,8 +23,8 @@ exports.create = async (ctx) => {
   try {
     output = await newletter.save();
     const smtpTransprot = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      service: "Gmail",
+      host: 'smtp.gmail.com',
+      service: 'Gmail',
       port: 587,
       secure: false,
       auth: {
@@ -36,13 +36,13 @@ exports.create = async (ctx) => {
       from: process.env.EMAIL_USER, // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
       to: process.env.EMAIL_TO, // 수신 메일 주소
       subject: `편지싸이트 업데이트 알림! ${msg.createdAt}`, // 제목
-      text: "편지싸이트에 지금 편지가 올려가 있으니까 한번봐봐!",
+      text: '편지싸이트에 지금 편지가 올려가 있으니까 한번봐봐!',
     };
     smtpTransprot.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        console.log('Email sent: ' + info.response);
       }
     });
     //smtpTransprot.close();
@@ -71,7 +71,7 @@ exports.replace = async (ctx) => {
   console.log(body, id);
   try {
     await Letter.findByIdAndUpdate(id, body);
-    console.log("성공");
+    console.log('성공');
   } catch (e) {
     console.log(e);
     return ctx.throw(500, e);
